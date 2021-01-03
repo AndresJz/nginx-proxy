@@ -1,0 +1,31 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:stable
+    container_name: reverse_proxy
+    volumes:
+      - ./reverse_proxy.conf:/etc/nginx/nginx.conf
+      - ./proxy.conf:/etc/nginx/proxy.conf
+      - ./oauth2_attributes.js:/etc/nginx/oauth2_attributes.js
+    environment:
+      - TOKEN=123456789
+    ports:
+      - 8888:80
+
+  web:
+    image: mendhak/http-https-echo
+    container_name: web_proxy
+    ports:
+      - 8887:80
+
+  faker:
+    image: dotronglong/faker:stable
+    volumes:
+      - ./mocks/:/app/mocks
+    ports:
+      - "3030:3030"
+
+
+
+
+      
